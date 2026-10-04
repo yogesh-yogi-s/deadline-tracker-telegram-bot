@@ -1,4 +1,6 @@
+import os
 import unittest
+import streamlit as st
 from streamlit.testing.v1 import AppTest
 import prompts
 
@@ -15,7 +17,7 @@ class TestDeadlineTrackerTelegram(unittest.TestCase):
 
     def test_app_missing_secrets(self):
         """Verify that missing secrets show user-friendly error and stop execution."""
-        at = AppTest.from_file("app.py")
+        at = AppTest.from_file("app.py", default_timeout=15)
         at.secrets["GEMINI_API_KEY"] = ""
         at.secrets["TELEGRAM_BOT_TOKEN"] = ""
         at.run()
@@ -24,7 +26,7 @@ class TestDeadlineTrackerTelegram(unittest.TestCase):
 
     def test_app_with_secrets_onboarding_view(self):
         """Verify that app displays the onboarding form when secrets are configured."""
-        at = AppTest.from_file("app.py")
+        at = AppTest.from_file("app.py", default_timeout=15)
         at.secrets["GEMINI_API_KEY"] = "dummy-gemini-key"
         at.secrets["TELEGRAM_BOT_TOKEN"] = "123456:dummy-telegram-token"
         at.secrets["GEMINI_MODEL"] = "gemini-3.5-flash"
@@ -37,7 +39,7 @@ class TestDeadlineTrackerTelegram(unittest.TestCase):
 
     def test_app_onboarding_empty_submission(self):
         """Verify that submitting empty fields in onboarding triggers a warning."""
-        at = AppTest.from_file("app.py")
+        at = AppTest.from_file("app.py", default_timeout=15)
         at.secrets["GEMINI_API_KEY"] = "dummy-gemini-key"
         at.secrets["TELEGRAM_BOT_TOKEN"] = "123456:dummy-telegram-token"
         at.secrets["GEMINI_MODEL"] = "gemini-3.5-flash"

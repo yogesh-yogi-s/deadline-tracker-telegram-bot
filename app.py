@@ -18,7 +18,7 @@ st.set_page_config(
 # Retrieve and validate required configuration secrets
 GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", "")
 TELEGRAM_BOT_TOKEN = st.secrets.get("TELEGRAM_BOT_TOKEN", "")
-MODEL_NAME = st.secrets.get("GEMINI_MODEL", "gemini-3.5-flash")
+MODEL_NAME = st.secrets.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 if not GEMINI_API_KEY or not TELEGRAM_BOT_TOKEN:
     st.error(
@@ -30,11 +30,13 @@ if not GEMINI_API_KEY or not TELEGRAM_BOT_TOKEN:
 
 
 @st.cache_resource
-def get_gemini_client():
-    return genai.Client(api_key=GEMINI_API_KEY)
+def get_gemini_client(api_key: str):
+    if not api_key:
+        return None
+    return genai.Client(api_key=api_key)
 
 
-gemini_client = get_gemini_client()
+gemini_client = get_gemini_client(GEMINI_API_KEY) if GEMINI_API_KEY else None
 
 
 def render_message(message):
@@ -54,6 +56,14 @@ def ask_gemini(parts):
     try:
         return st.session_state.chat.send_message(parts).text
     except Exception as error:
+        err_msg = str(error)
+        if "503" in err_msg or "429" in err_msg:
+            import time
+            time.sleep(1.5)
+            try:
+                return st.session_state.chat.send_message(parts).text
+            except Exception as retry_err:
+                return f"Notice: The Gemini service is experiencing high demand. Please retry in a few moments: {retry_err}"
         return f"Sorry, something went wrong while processing your request: {error}"
 
 
