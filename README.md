@@ -45,7 +45,7 @@ TELEGRAM BOT API (Direct to User's Chat)
 * **📷 Multimodal Vision Extraction**: Hand raw images of course schedules or assignment prompts directly to Gemini without OCR pre-processing.
 * **🧠 Persistent Context & Memory**: Chat session maintains state so you can ask follow-up questions (e.g., *"Which of these assignments has the highest weightage?"* or *"What is due next Monday?"*).
 * **⚡ Graceful Ambiguity Handling**: If dates are cut off or unclear, the assistant explicitly flags uncertainties rather than hallucinating dates.
-* **📲 Instant Telegram Reminders**: Automatically compiles all discussed deadlines into a clean mobile-friendly format and dispatches via Telegram Bot.
+* **📲 Instant Telegram Reminders**: Automatically compiles all discussed deadlines into a clean mobile-friendly format and dispatches via Telegram Bot ([@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)).
 * **🛡️ Production Security**: API keys and tokens are managed via `.streamlit/secrets.toml` and kept out of Git version control.
 
 ---
@@ -71,7 +71,7 @@ TELEGRAM BOT API (Direct to User's Chat)
 ### 1. Requirements
 * Python 3.9 or newer (tested on Python 3.11 - 3.13)
 * Google AI Studio account ([aistudio.google.com](https://aistudio.google.com/))
-* Telegram account and a Telegram Bot token from [@BotFather](https://t.me/BotFather)
+* Telegram account and a Telegram Bot token for [@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot) from [@BotFather](https://t.me/BotFather)
 
 ### 2. Clone / Setup Workspace
 ```bash
@@ -112,11 +112,11 @@ Edit `.streamlit/secrets.toml` with your real keys:
 # Google Gemini API key from Google AI Studio
 GEMINI_API_KEY = "your-gemini-api-key-here"
 
-# Telegram Bot Token from @BotFather
+# Telegram Bot Token from @BotFather for @Deadline_Tracker_yogi_bot
 TELEGRAM_BOT_TOKEN = "your-telegram-bot-token-here"
 
-# Optional: Gemini model override (defaults to gemini-3.5-flash)
-GEMINI_MODEL = "gemini-3.5-flash"
+# Optional: Gemini model override (defaults to gemini-3.5-flash-lite)
+GEMINI_MODEL = "gemini-3.5-flash-lite"
 ```
 
 ---
@@ -130,13 +130,13 @@ GEMINI_MODEL = "gemini-3.5-flash"
 
 ### B. Telegram Bot Token
 1. Open Telegram and search for [@BotFather](https://t.me/BotFather).
-2. Send `/newbot`, name your bot (e.g. `MyDeadlineBot`), and choose a username ending in `bot`.
+2. Use your bot token for **[@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)** (or create a new bot using `/newbot`).
 3. Copy the HTTP API token provided by BotFather into `TELEGRAM_BOT_TOKEN`.
 
-### C. Telegram Chat ID
-1. Search for [@userinfobot](https://t.me/userinfobot) on Telegram and send `/start`.
-2. It replies with your numeric **Id** (e.g., `123456789`).
-3. **Important**: Also open your own bot in Telegram and tap **Start** (or send any greeting) once so Telegram authorizes the bot to message you!
+### C. Telegram Chat ID & Initial Bot Interaction
+1. **Authorize the bot**: Open **[@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)** on Telegram and press **Start**. *(Note: Telegram requires the recipient to interact with the bot first so Telegram provides the bot with your chat context and permission to message you).*
+2. **Find your Chat ID**: Search for **[@userinfobot](https://t.me/userinfobot)** on Telegram and send `/start`.
+3. It replies with your numeric **Id** (e.g. `123456789`).
 
 ---
 
@@ -147,10 +147,11 @@ streamlit run app.py
 ```
 
 The application opens automatically at `http://localhost:8501`.
-1. Fill in your name and numeric Telegram Chat ID on the onboarding screen.
-2. Click **"Let's go 🚀"**.
-3. Upload a photo of your syllabus, assignment prompt, or schedule sheet (or type in questions).
-4. Tap **"📤 Send to Telegram"** to get the digest delivered directly to your chat!
+1. First, make sure you have opened **[@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)** and tapped **Start**.
+2. Fill in your name and numeric Telegram Chat ID on the onboarding screen.
+3. Click **"Let's go 🚀"**.
+4. Upload a photo of your syllabus, assignment prompt, or schedule sheet (or type in questions).
+5. Tap **"📤 Send to Telegram"** to get the digest delivered directly to your chat via [@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)!
 
 ---
 

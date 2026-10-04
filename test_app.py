@@ -36,6 +36,11 @@ class TestDeadlineTrackerTelegram(unittest.TestCase):
         input_labels = [inp.label for inp in at.text_input]
         self.assertIn("Your name", input_labels)
         self.assertIn("Telegram Chat ID", input_labels)
+        markdown_texts = [m.value for m in at.markdown]
+        self.assertTrue(
+            any("@Deadline_Tracker_yogi_bot" in text for text in markdown_texts),
+            "Expected @Deadline_Tracker_yogi_bot to appear in onboarding instructions",
+        )
 
     def test_app_onboarding_empty_submission(self):
         """Verify that submitting empty fields in onboarding triggers a warning."""

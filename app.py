@@ -107,16 +107,18 @@ if "onboarded" not in st.session_state:
         telegram_chat_id = st.text_input(
             "Telegram Chat ID",
             placeholder="e.g. 123456789",
-            help="Your numeric Telegram Chat ID. Get it instantly by messaging @userinfobot on Telegram.",
+            help="Your numeric Telegram Chat ID. Get it from @userinfobot, and make sure you open @Deadline_Tracker_yogi_bot and press Start first.",
         )
         submitted = st.form_submit_button("Let's go 🚀")
 
-    with st.expander("ℹ️ How to find your Telegram Chat ID & connect"):
+    with st.expander("ℹ️ How to connect with @Deadline_Tracker_yogi_bot & find your Chat ID"):
         st.markdown(
             """
-            1. Open Telegram and search for **[@userinfobot](https://t.me/userinfobot)**.
-            2. Press **Start** (or send any text). It will reply with your numeric **Id** (e.g. `123456789`).
-            3. **Important**: Open your Telegram bot and tap **Start** (or send a greeting) so the bot has permission to message you.
+            1. **Open the bot**: Open **[@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)** on Telegram.
+            2. **Press Start**: Tap **Start** in the chat (Telegram requires you to start the bot first so Telegram provides the bot with your chat context to message you).
+            3. **Get your Chat ID**: Open **[@userinfobot](https://t.me/userinfobot)** and tap **Start** to get your numeric ID.
+            4. **Return to Deadline Tracker app**: Enter your name and Chat ID above, then tap **Let's go 🚀**.
+            5. **Generate & send**: Snap or describe your schedule, then tap **📤 Send to Telegram** to receive your digest!
             """
         )
 
@@ -156,7 +158,9 @@ with button_col:
 
 user_name = st.session_state.get("name", "Student")
 chat_id = st.session_state.get("telegram_chat_id", "")
-st.caption(f"Logged in as **{user_name}** — deadline reminders sent to Telegram Chat ID: `{chat_id}`")
+st.caption(
+    f"Logged in as **{user_name}** — reminders sent to Telegram Chat ID: `{chat_id}` via [@Deadline_Tracker_yogi_bot](https://t.me/Deadline_Tracker_yogi_bot)"
+)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
